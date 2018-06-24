@@ -42,4 +42,28 @@ class GildedRoseTest extends Specification {
         "Backstage passes to a TAFKAL80ETC concert"|5|49|4|50
         "Conjured Mana Cake"|3|6|2|5
     }
+
+    def "Aged brie"(){
+        setup:
+        def nDays = 10
+        GildedRose app = new GildedRose([new Item("Aged Brie", 5, 0)].toArray(new Item[0]))
+        expect:
+        for (int i = 0; i < nDays; i++) {
+            app.updateQuality()
+        }
+        def item = app.items[0]
+        item.quality == 10
+    }
+
+    def "Backstage passes to a TAFKAL80ETC concert quality become 0 when expire"(){
+        setup:
+        def nDays = 3
+        GildedRose app = new GildedRose([new Item("Backstage passes to a TAFKAL80ETC concert", 0, 30)].toArray(new Item[0]))
+        expect:
+        for (int i = 0; i < nDays; i++) {
+            app.updateQuality()
+        }
+        def item = app.items[0]
+        item.quality == 0
+    }
 }
