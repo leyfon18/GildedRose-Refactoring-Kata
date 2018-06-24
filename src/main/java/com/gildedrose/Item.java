@@ -14,8 +14,32 @@ public class Item {
         this.quality = quality;
     }
 
-   @Override
-   public String toString() {
+    public boolean isExpired() {
+        return this.sellIn < 0;
+    }
+
+    public void incrementQuality() {
+        if (this.quality < 50) {
+            this.quality = this.quality + 1;
+        }
+    }
+    
+    public void decrementQuality(){
+        if (this.quality > 0) {
+            if (!this.name.equals("Sulfuras, Hand of Ragnaros")) {
+                this.quality = this.quality - 1;
+            }
+        }
+    }
+    
+    public void descrementSellIn(){
+        if (!this.name.equals("Sulfuras, Hand of Ragnaros")) {
+            this.sellIn = this.sellIn - 1;
+        }
+    }
+
+    @Override
+    public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
 }
