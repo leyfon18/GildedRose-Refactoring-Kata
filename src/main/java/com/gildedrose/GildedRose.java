@@ -1,7 +1,19 @@
 package com.gildedrose;
 
-class GildedRose {
-    Item[] items;
+import com.gildedrose.itemdeprecationstrategies.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class GildedRose {
+    public static final Map<String, ItemDeprecationStrategy> deprecationStrategiesMap;
+    static {
+        deprecationStrategiesMap = new HashMap<>();
+        deprecationStrategiesMap.put("Aged Brie", new AlwaysIncrese());
+        deprecationStrategiesMap.put("Backstage passes to a TAFKAL80ETC concert", new IntervalDeprecation(11, 6));
+        deprecationStrategiesMap.put("Sulfuras, Hand of Ragnaros", new NeverDeprecate());
+    }
+    private Item[] items;
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -9,27 +21,13 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            Item item = items[i];
-
-            item.descrementSellIn();
-
-            if (item.name.equals("Aged Brie")) {
-                item.incrementQuality();
-            } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (item.isExpired()) {
-                    item.quality = 0;
-                } else {
-                    if (item.sellIn < 11) {
-                        item.incrementQuality();
-                    } else if (item.sellIn < 6) {
-                        item.incrementQuality();
-                    } else {
-                        item.incrementQuality();
-                    }
-                }
-            } else if (item.isExpired() && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.decrementQuality();
-            }
+            Item item = getUpdatedItem(items[i]);
+            items[i] = item;
         }
+    }
+
+    private Item getUpdatedItem(Item item) {
+        ItemDeprecationStrategy strategy = deprecationStrategiesMap.getOrDefault(item.getName(), new DefaultDeprecation());
+        return strategy.update(item);
     }
 }

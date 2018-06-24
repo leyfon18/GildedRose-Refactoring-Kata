@@ -1,12 +1,11 @@
 package com.gildedrose;
 
 public class Item {
+    private String name;
 
-    public String name;
+    private int sellIn;
 
-    public int sellIn;
-
-    public int quality;
+    private int quality;
 
     public Item(String name, int sellIn, int quality) {
         this.name = name;
@@ -14,25 +13,40 @@ public class Item {
         this.quality = quality;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getSellIn() {
+        return sellIn;
+    }
+
+    public int getQuality() {
+        return quality;
+    }
+
     public boolean isExpired() {
         return this.sellIn < 0;
     }
 
-    public void incrementQuality() {
-        if (this.quality < 50) {
-            this.quality = this.quality + 1;
+    public Item plusQuality(int unit) {
+        int resultQuality = this.quality + unit;
+        if (resultQuality < 0) {
+            resultQuality = 0;
+        } else if (resultQuality > 50) {
+            resultQuality = 50;
         }
+        return new Item(name, sellIn, resultQuality);
     }
-    
-    public void decrementQuality(){
-        if (this.quality > 0) {
-                this.quality = this.quality - 1;
-        }
+
+    public Item descrementSellIn() {
+        return new Item(name, sellIn - 1, quality);
     }
-    
-    public void descrementSellIn(){
-            this.sellIn = this.sellIn - 1;
+
+    public Item withZeroQuality() {
+        return new Item(name, sellIn, 0);
     }
+
 
     @Override
     public String toString() {
