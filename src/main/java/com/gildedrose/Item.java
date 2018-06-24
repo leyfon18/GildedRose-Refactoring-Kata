@@ -26,16 +26,12 @@ public class Item {
     
     public void decrementQuality(){
         if (this.quality > 0) {
-            if (!this.name.equals("Sulfuras, Hand of Ragnaros")) {
                 this.quality = this.quality - 1;
-            }
         }
     }
     
     public void descrementSellIn(){
-        if (!this.name.equals("Sulfuras, Hand of Ragnaros")) {
             this.sellIn = this.sellIn - 1;
-        }
     }
 
     @Override
