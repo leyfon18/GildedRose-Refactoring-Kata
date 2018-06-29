@@ -1,11 +1,14 @@
 package com.gildedrose;
 
 public class Item {
-    private String name;
+    private static final int MAX_QUALITY = 50;
+    public static final int EXPIRED_SELL_IN = 0;
 
-    private int sellIn;
+    private final String name;
 
-    private int quality;
+    private final int sellIn;
+
+    private final int quality;
 
     public Item(String name, int sellIn, int quality) {
         this.name = name;
@@ -26,19 +29,27 @@ public class Item {
     }
 
     public boolean isExpired() {
-        return this.sellIn < 0;
+        return this.sellIn < EXPIRED_SELL_IN;
     }
 
-    public Item plusQuality(int unit) {
-        int resultQuality = this.quality + unit;
-        if (resultQuality < 0) {
-            resultQuality = 0;
-        } else if (resultQuality > 50) {
-            resultQuality = 50;
+    public Item plusQuality(int amount) {
+        return new Item(name, sellIn, getNewQuality(amount));
+    }
+
+    public Item minusQuality(int amount) {
+        return new Item(name, sellIn, getNewQuality(-amount));
+    }
+
+    private int getNewQuality(int amount) {
+        int newQuality = quality + amount;
+        if (newQuality > MAX_QUALITY) {
+            return MAX_QUALITY;
+        } else {
+            return newQuality;
         }
-        return new Item(name, sellIn, resultQuality);
     }
 
+<<<<<<< HEAD
     public Item minusQuality(int unit) {
         int resultQuality = this.quality - unit;
         if (resultQuality < 0) {
@@ -49,6 +60,8 @@ public class Item {
         return new Item(name, sellIn, resultQuality);
     }
 
+=======
+>>>>>>> 88e8d20... Final refactor
     public Item decrementSellIn() {
         return new Item(name, sellIn - 1, quality);
     }
