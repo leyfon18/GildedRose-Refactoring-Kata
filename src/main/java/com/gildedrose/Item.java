@@ -39,7 +39,17 @@ public class Item {
         return new Item(name, sellIn, resultQuality);
     }
 
-    public Item descrementSellIn() {
+    public Item minusQuality(int unit) {
+        int resultQuality = this.quality - unit;
+        if (resultQuality < 0) {
+            resultQuality = 0;
+        } else if (resultQuality > 50) {
+            resultQuality = 50;
+        }
+        return new Item(name, sellIn, resultQuality);
+    }
+
+    public Item decrementSellIn() {
         return new Item(name, sellIn - 1, quality);
     }
 

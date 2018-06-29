@@ -1,17 +1,17 @@
 package com.gildedrose;
 
-import com.gildedrose.itemdeprecationstrategies.*;
+import com.gildedrose.updatestrategies.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class GildedRose {
-    public static final Map<String, ItemDeprecationStrategy> deprecationStrategiesMap;
+    public static final Map<String, UpdateItemStrategy> deprecationStrategiesMap;
     static {
         deprecationStrategiesMap = new HashMap<>();
-        deprecationStrategiesMap.put("Aged Brie", new AlwaysIncrese());
-        deprecationStrategiesMap.put("Backstage passes to a TAFKAL80ETC concert", new IntervalDeprecation(11, 6));
-        deprecationStrategiesMap.put("Sulfuras, Hand of Ragnaros", new NeverDeprecate());
+        deprecationStrategiesMap.put("Aged Brie", new AlwaysIncrease());
+        deprecationStrategiesMap.put("Backstage passes to a TAFKAL80ETC concert", new IncreaseQualityWithThreshold(11, 6));
+        deprecationStrategiesMap.put("Sulfuras, Hand of Ragnaros", new NeverChange());
     }
     private Item[] items;
 
@@ -27,7 +27,7 @@ public class GildedRose {
     }
 
     private Item getUpdatedItem(Item item) {
-        ItemDeprecationStrategy strategy = deprecationStrategiesMap.getOrDefault(item.getName(), new DefaultDeprecation());
-        return strategy.update(item);
+        UpdateItemStrategy strategy = deprecationStrategiesMap.getOrDefault(item.getName(), new AlwaysDecrease());
+        return strategy.apply(item);
     }
 }
