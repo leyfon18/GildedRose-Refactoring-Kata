@@ -1,8 +1,8 @@
-package com.gildedrose.itemdeprecationstrategies;
+package com.gildedrose.updatestrategies;
 
 import com.gildedrose.Item;
 
-public class IntervalDeprecation implements ItemDeprecationStrategy {
+public class IntervalDeprecation implements UpdateStrategy {
     private int upperbound;
     private int lowerbound;
 
@@ -12,7 +12,7 @@ public class IntervalDeprecation implements ItemDeprecationStrategy {
     }
 
     @Override
-    public Item update(Item i) {
+    public Item apply(Item i) {
         Item item = i.descrementSellIn();
 
         if (item.isExpired()) {

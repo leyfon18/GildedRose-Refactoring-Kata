@@ -1,10 +1,10 @@
-package com.gildedrose.itemdeprecationstrategies;
+package com.gildedrose.updatestrategies;
 
 import com.gildedrose.Item;
 
-public class DefaultDeprecation implements ItemDeprecationStrategy{
+public class DefaultDeprecation implements UpdateStrategy {
     @Override
-    public Item update(Item i) {
+    public Item apply(Item i) {
         Item item = i.descrementSellIn();
 
         if (item.isExpired()) {
